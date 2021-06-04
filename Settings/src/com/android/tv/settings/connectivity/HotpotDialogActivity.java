@@ -125,6 +125,7 @@ public class HotpotDialogActivity extends BaseInputActivity implements View.OnCl
         if (mWifiConfig != null) {
             mSsid.setText(mWifiConfig.getSsid());
             if (is5GhzBandSupported()) {
+                Log.d(TAG, "current band = " + mWifiConfig.getBand());
                 mBandIndex = validateSelection(mWifiConfig.getBand());
                 Log.d(TAG, "Updating band index to " + mBandIndex);
             } else {
@@ -314,7 +315,7 @@ public class HotpotDialogActivity extends BaseInputActivity implements View.OnCl
         // unsupported states:
         // 1: BAND_5GHZ only - include 2GHZ since some of countries doesn't support 5G hotspot
         // 2: no 5 GHZ support means we can't have BAND_5GHZ - default to 2GHZ
-        if (SoftApConfiguration.BAND_5GHZ == band) {
+        if (SoftApConfiguration.BAND_5GHZ <= band) {
             if (!is5GhzBandSupported()) {
                 return INDEX_2GHZ;//SoftApConfiguration.BAND_2GHZ;
             }
