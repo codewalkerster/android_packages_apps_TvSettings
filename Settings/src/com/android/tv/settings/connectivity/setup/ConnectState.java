@@ -139,6 +139,7 @@ public class ConnectState implements State {
                     .getSystemService(Context.WIFI_SERVICE));
             mHandler = new MessageHandler(this);
             mConnectivityListener.setWifiListener(this);
+            mUserChoiceInfo = ViewModelProviders.of(getActivity()).get(UserChoiceInfo.class);
         }
 
         @Override
@@ -197,7 +198,7 @@ public class ConnectState implements State {
                 return;
             }
             if (configuration.getNetworkSelectionStatus().getNetworkSelectionStatus()
-                    == NETWORK_SELECTION_ENABLED) {
+                    == NETWORK_SELECTION_ENABLED && isNetworkConnected()) {
                 NetworkCapabilities wifiNetworkCapabilities = getActiveWifiNetworkCapabilities();
                 if (wifiNetworkCapabilities != null) {
                     if (wifiNetworkCapabilities.hasCapability(
