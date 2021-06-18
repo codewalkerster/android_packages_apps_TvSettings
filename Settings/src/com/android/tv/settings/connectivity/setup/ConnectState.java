@@ -198,12 +198,14 @@ public class ConnectState implements State {
                 return;
             }
             if (configuration.getNetworkSelectionStatus().getNetworkSelectionStatus()
-                    == NETWORK_SELECTION_ENABLED && isNetworkConnected()) {
+                    == NETWORK_SELECTION_ENABLED) {
                 NetworkCapabilities wifiNetworkCapabilities = getActiveWifiNetworkCapabilities();
                 if (wifiNetworkCapabilities != null) {
                     if (wifiNetworkCapabilities.hasCapability(
                             NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
-                        notifyListener(StateMachine.RESULT_SUCCESS);
+                        if (isNetworkConnected()) {
+                            notifyListener(StateMachine.RESULT_SUCCESS);
+                        }
                     } else if (wifiNetworkCapabilities.hasCapability(
                             NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL)) {
                         notifyListener(StateMachine.RESULT_CAPTIVE_PORTAL);
